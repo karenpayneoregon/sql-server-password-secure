@@ -79,7 +79,9 @@ public class DataOperations
          * (@Password) as ValidItem is used if you want to load results into a DataTable which
          * makes it easy for debugging, otherwise no need for the alias.
          */
-        cmd.CommandText = "SELECT Id,[dbo].[Password_Check] (@Password) as ValidItem FROM dbo.Users1 AS u  WHERE u.UserName = @UserName";
+        cmd.CommandText = "SELECT Id,[dbo].[Password_Check] (@Password) as ValidItem " + 
+                          "FROM dbo.Users1 AS u  WHERE u.UserName = @UserName";
+
         cmd.Parameters.Add("@UserName", SqlDbType.NChar).Value = username;
         cmd.Parameters.Add("@Password", SqlDbType.NChar).Value = password.ToUnSecureString();
 
@@ -91,11 +93,11 @@ public class DataOperations
             if (reader.HasRows)
             {
                 reader.Read();
-                return (reader.GetValue(1) != DBNull.Value, null);
+                return (reader.GetValue(1) != DBNull.Value, null)!;
             }
             else
             {
-                return (false, null);
+                return (false, null)!;
             }
         }
         catch (Exception exception)
@@ -111,7 +113,7 @@ public class DataOperations
     /// <param name="username">user name to validate</param>
     /// <param name="password">user password to validate</param>
     /// <returns>success and identity</returns>
-    public static (bool success, int? id) ValidateUser2(string username, SecureString password)
+    public static (bool success, int id) ValidateUser2(string username, SecureString password)
     {
         using var cn = new SqlConnection(ConfigurationHelper.ConnectionString());
         using var cmd = new SqlCommand() { Connection = cn };
@@ -130,7 +132,7 @@ public class DataOperations
         }
         else
         {
-            return (false, null);
+            return (false, -1);
         }
 
     }
