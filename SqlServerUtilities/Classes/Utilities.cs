@@ -1,9 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using System.Security;
 
-namespace BasicSqlServerPasswordApp.Classes;
+namespace SqlServerUtilities.Classes;
 
-static class Utilities
+public static class Utilities
 {
     public static SecureString? ToSecureString(this string? sender)
     {

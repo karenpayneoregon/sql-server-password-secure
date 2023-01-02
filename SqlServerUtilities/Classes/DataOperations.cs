@@ -1,29 +1,30 @@
 ﻿using System.Data;
 using System.Security;
-using BasicSqlServerPasswordApp.Models;
 using ConfigurationLibrary.Classes;
 using Microsoft.Data.SqlClient;
+using SqlServerUtilities.Models;
 
-namespace BasicSqlServerPasswordApp.Classes;
+namespace SqlServerUtilities.Classes;
 
 /// <summary>
 /// * Make sure to following instructions in readme under the scripts folder before running the code.
-/// * Recommend <see cref="ValidateUser2"/> others are there to see how we got there and that HASHBYTES is better than PWDCOMPARE
-///   but that is up to the developer.
+/// * Recommend <see cref="ValidateUser2"/> others are there to see how we got there and that HASHBYTES
+///   is better than PWDCOMPARE but that is up to the developer.
 /// </summary>
 public class DataOperations
 {
     /// <summary>
-    /// Validate a user name then password. Password validation is done via a SQL-Server using PWDCOMPARE which may go away in
-    /// future releases of SQL-Server.
+    /// Validate a user name then password. Password validation is done via a SQL-Server using
+    /// PWDCOMPARE which may go away in future releases of SQL-Server.
     /// </summary>
     /// <param name="username"></param>
     /// <param name="password"></param>
-    /// <returns></returns>
+    /// <returns>true if user found with correct password, false otherwise</returns>
     public static bool ValidateUser(string username, SecureString password)
     {
         using var cn = new SqlConnection(ConfigurationHelper.ConnectionString());
         using var cmd = new SqlCommand() { Connection = cn };
+
         cmd.CommandText = "SELECT Id from dbo.Users WHERE Username = @UserName AND PWDCOMPARE(@Password,[Password]) = 1";
         cmd.Parameters.Add("@UserName", SqlDbType.NChar).Value = username;
         cmd.Parameters.Add("@Password", SqlDbType.NChar).Value = password.ToUnSecureString();
@@ -33,7 +34,7 @@ public class DataOperations
         return cmd.ExecuteScalar() != null;
 
     }
-    
+
     /// <summary>
     /// Validate user name and password
     /// </summary>
@@ -96,7 +97,7 @@ public class DataOperations
         {
             return (false, null);
         }
-        
+
     }
 
     /// <summary>

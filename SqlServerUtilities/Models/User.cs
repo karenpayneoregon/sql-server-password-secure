@@ -1,7 +1,6 @@
 ﻿using System.Security;
-using BasicSqlServerPasswordApp.Classes;
 
-namespace BasicSqlServerPasswordApp.Models;
+namespace SqlServerUtilities.Models;
 
 public class User
 {

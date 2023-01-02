@@ -6,10 +6,16 @@
 
 Developers just starting working with Windows Forms, WPF or Console applications tend to use plain text to store passwords in a database which is not wise as anyone that can open the database can see these passwords stored in plain text.
 
+# SqlServerUtilities project
+
+This project contains code to perform login and add users to the backend database.
+
 
 **Screenshot for both examples**
 
 ![Login](assets/login.png)
+
+:stop_sign: Code for example 1 
 
 # Example 1
 An easy method to store passwords is [PWDENCRYPT](https://learn.microsoft.com/en-us/sql/t-sql/functions/pwdencrypt-transact-sql?view=sql-server-ver16) which might not be supported in future releases of SQL-Server, the second example uses [HASHBYTES](https://learn.microsoft.com/en-us/sql/t-sql/functions/hashbytes-transact-sql?view=sql-server-ver16) which offers more options.

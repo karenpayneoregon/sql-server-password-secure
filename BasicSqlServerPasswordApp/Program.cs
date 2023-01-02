@@ -1,5 +1,6 @@
 ﻿using BasicSqlServerPasswordApp.Classes;
-using BasicSqlServerPasswordApp.Models;
+using SqlServerUtilities.Classes;
+using SqlServerUtilities.Models;
 
 namespace BasicSqlServerPasswordApp;
 
