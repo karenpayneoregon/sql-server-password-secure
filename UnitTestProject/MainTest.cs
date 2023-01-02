@@ -16,10 +16,10 @@ public partial class MainTest : TestBase
         var password = "!FirstOnMonday";
 
         // act
-        var result = DataOperations.ValidateUser1(userName, password!.ToSecureString()!);
+        var (success, _ ) = DataOperations.ValidateUserLogin(userName, password!.ToSecureString()!);
 
         // assert
-        result.ShouldBe(true);
+        success.ShouldBeTrue();
     }
 
     [TestMethod]
@@ -31,9 +31,9 @@ public partial class MainTest : TestBase
         var password = "!firstonmonday"; // wrong password
 
         // act
-        var result = DataOperations.ValidateUser1(userName, password!.ToSecureString()!);
+        var (success, _ ) = DataOperations.ValidateUserLogin(userName, password!.ToSecureString()!);
 
         // assert
-        result.ShouldBe(false);
+        success.ShouldBeFalse();
     }
 }

@@ -69,6 +69,41 @@ public class DataOperations
         }
 
     }
+    public static (bool, Exception) ValidateUserLogin(string username, SecureString password)
+    {
+        using var cn = new SqlConnection(ConfigurationHelper.ConnectionString());
+        using var cmd = new SqlCommand() { Connection = cn };
+
+        /*
+         * Note:
+         * (@Password) as ValidItem is used if you want to load results into a DataTable which
+         * makes it easy for debugging, otherwise no need for the alias.
+         */
+        cmd.CommandText = "SELECT Id,[dbo].[Password_Check] (@Password) as ValidItem FROM dbo.Users1 AS u  WHERE u.UserName = @UserName";
+        cmd.Parameters.Add("@UserName", SqlDbType.NChar).Value = username;
+        cmd.Parameters.Add("@Password", SqlDbType.NChar).Value = password.ToUnSecureString();
+
+        try
+        {
+            cn.Open();
+
+            var reader = cmd.ExecuteReader();
+            if (reader.HasRows)
+            {
+                reader.Read();
+                return (reader.GetValue(1) != DBNull.Value, null);
+            }
+            else
+            {
+                return (false, null);
+            }
+        }
+        catch (Exception exception)
+        {
+            return (false, exception);
+
+        }
+    }
 
     /// <summary>
     /// Validate user name and password, if user input matches return their primary key
