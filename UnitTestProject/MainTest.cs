@@ -16,7 +16,8 @@ public partial class MainTest : TestBase
         var password = "!FirstOnMonday";
 
         // act
-        var (success, exception ) = DataOperations.ValidateUserLogin(userName, password!.ToSecureString()!);
+        var (success, exception ) = DataOperations
+            .ValidateUserLogin(userName, password!.ToSecureString()!);
 
         // assert
         success.ShouldBeTrue();
